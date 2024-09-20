@@ -86,13 +86,19 @@ impl Board {
     }
 
     pub fn play(&mut self) {
-        loop {
+        while !self.game_over && !self.game_won {
             // get user input
             // match user input
             // reveal block
             // flip flag
             // check game over
-            // check game won
+            if self.num_revealed == self.num_safe_blocks - self.num_mines {
+                self.game_won = true;
+            }
+
+            if self.game_over {
+                // reveal all blocks
+            }
         }
     }
 }
