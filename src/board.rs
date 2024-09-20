@@ -1,7 +1,9 @@
-use crate::block::block;
+use crate::block::Block;
 
-pub struct board {
-    pub blocks: Vec<block>,
+use rand::Rng;
+
+pub struct Board {
+    pub blocks: Vec<Block>,
     pub width: i32,
     pub height: i32,
     pub num_mines: i32,
@@ -13,18 +15,18 @@ pub struct board {
     pub game_won: bool,
 }
 
-impl board {
-    pub fn new(width: i32, height: i32, num_mines: i32) -> board {
+impl Board {
+    pub fn new(width: i32, height: i32, num_mines: i32) -> Board {
         let mut blocks = Vec::new();
         let num_blocks = width * height;
         let num_safe_blocks = num_blocks - num_mines;
         let mut index = 0;
         for _ in 0..num_blocks {
-            blocks.push(block::new());
+            blocks.push(Block::new());
             blocks[index as usize].index = index;
             index += 1;
         }
-        board {
+        Board {
             blocks: blocks,
             width: width,
             height: height,
@@ -36,6 +38,20 @@ impl board {
             game_over: false,
             game_won: false,
         }
+    }
+
+    pub fn init(&mut self) {
+        // generate mines
+        for _ in 0..self.num_mines {
+            let mut rng = rand::thread_rng();
+            let mut index = rng.gen_range(0..self.num_blocks);
+            while self.blocks[index as usize].is_mine {
+                index = rng.gen_range(0..self.num_blocks);
+            }
+            self.blocks[index as usize].is_mine = true;
+        }
+
+        // calculate adjacent mines
     }
 
     pub fn reveal_block(&mut self, index: i32) {
@@ -66,6 +82,17 @@ impl board {
         } else {
             self.blocks[index as usize].is_flagged = true;
             self.num_flags += 1;
+        }
+    }
+
+    pub fn play(&mut self) {
+        loop {
+            // get user input
+            // match user input
+            // reveal block
+            // flip flag
+            // check game over
+            // check game won
         }
     }
 }

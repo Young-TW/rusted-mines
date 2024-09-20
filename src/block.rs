@@ -1,4 +1,4 @@
-pub struct block {
+pub struct Block {
     pub index: i32,
     pub is_mine: bool,
     pub is_flagged: bool,
@@ -6,9 +6,9 @@ pub struct block {
     pub adjacent_mines: i32,
 }
 
-impl block {
-    pub fn new() -> block {
-        block {
+impl Block {
+    pub fn new() -> Block {
+        Block {
             index: 0,
             is_mine: false,
             is_flagged: false,
