@@ -1,4 +1,9 @@
+pub mod operation;
+pub mod rule;
+pub mod status;
+
 use crate::block::Block;
+use crate::board::operation::Operation;
 
 use rand::Rng;
 
@@ -88,9 +93,12 @@ impl Board {
     pub fn play(&mut self) {
         while !self.game_over && !self.game_won {
             // get user input
+            let mut operate: Operation = Operation::new();
+
             // match user input
             // reveal block
             // flip flag
+
             // check game over
             if self.num_revealed == self.num_safe_blocks - self.num_mines {
                 self.game_won = true;
