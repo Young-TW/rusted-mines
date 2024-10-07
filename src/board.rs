@@ -90,6 +90,29 @@ impl Board {
         }
     }
 
+    pub fn print(&self) {
+        // print board
+        for i in 0..self.height {
+            for j in 0..self.width {
+                let index = i * self.width + j;
+                if self.blocks[index as usize].is_revealed {
+                    if self.blocks[index as usize].is_mine {
+                        print!("M ");
+                    } else {
+                        print!("{} ", self.blocks[index as usize].adjacent_mines);
+                    }
+                } else {
+                    if self.blocks[index as usize].is_flagged {
+                        print!("F ");
+                    } else {
+                        print!(". ");
+                    }
+                }
+            }
+            println!();
+        }
+    }
+
     pub fn play(&mut self) {
         while !self.game_over && !self.game_won {
             // get user input
@@ -107,6 +130,8 @@ impl Board {
             if self.game_over {
                 // reveal all blocks
             }
+
+            self.print();
         }
     }
 }
