@@ -110,7 +110,8 @@ impl Board {
     pub fn play(&mut self) {
         while !self.status.game_over && !self.status.game_won {
             // get user input
-            let operate: Operation = Operation::new();
+            let mut operate: Operation = Operation::new();
+            operate = Operation::get();
 
             // match user input
             match operate {
