@@ -21,11 +21,8 @@ impl Board {
     pub fn new(width: i32, height: i32, num_mines: i32) -> Board {
         let mut blocks = Vec::new();
         let num_blocks = width * height;
-        let mut index = 0;
         for _ in 0..num_blocks {
             blocks.push(Block::new());
-            blocks[index as usize].index = index;
-            index += 1;
         }
 
         Board {
