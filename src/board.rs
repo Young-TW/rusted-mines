@@ -113,21 +113,12 @@ impl Board {
             // get user input
             operate = Operation::get();
 
-            // match user input
-            match operate {
-                ref is_flip => {
-                    self.flip_flag(operate.index);
-                }
-                ref is_open => {
-                    self.reveal_block(operate.index);
-                }
-                ref is_invalid => {
-                    println!("Invalid operation");
-                }
-                ref exit_game => {
-                    println!("Exit game");
-                    break;
-                }
+            if operate.is_flip {
+                self.flip_flag(operate.index);
+            } else if operate.is_open {
+                self.reveal_block(operate.index);
+            } else if operate.is_invalid {
+                println!("Invalid operation");
             }
 
             // check game over
