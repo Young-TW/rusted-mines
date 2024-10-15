@@ -108,9 +108,9 @@ impl Board {
     }
 
     pub fn play(&mut self) {
-        while !self.status.game_over && !self.status.game_won {
+        let mut operate: Operation = Operation::new();
+        while !self.status.game_over && !self.status.game_won && !operate.exit_game {
             // get user input
-            let mut operate: Operation = Operation::new();
             operate = Operation::get();
 
             // match user input
@@ -140,6 +140,12 @@ impl Board {
             }
 
             self.print();
+        }
+
+        if self.status.game_won {
+            println!("You win!");
+        } else {
+            println!("You lose!");
         }
     }
 }
