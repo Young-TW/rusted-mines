@@ -18,12 +18,10 @@ impl Block {
     }
 
     pub fn reveal(&mut self, n_revealed: &mut i32) -> bool {
-        // the return boolean means if the block is a mine
-        if self.is_revealed == false {
+        if !self.is_revealed {
             self.is_revealed = true;
             *n_revealed += 1;
         }
-
         self.is_mine
     }
 
