@@ -44,44 +44,13 @@ impl Board {
         for _ in 0..self.num_mines {
             let mut rng = rand::thread_rng();
             let mut index = rng.gen_range(0..self.num_blocks);
-            while self.blocks[index as usize].is_mine {
+            while self.blocks[index as usize].is_mine() {
                 index = rng.gen_range(0..self.num_blocks);
             }
-            self.blocks[index as usize].is_mine = true;
+            self.blocks[index as usize].set_mine();
         }
 
         // calculate adjacent mines
-    }
-
-    pub fn reveal_block(&mut self, index: i32) {
-        if self.blocks[index as usize].is_revealed {
-            return;
-        }
-        self.blocks[index as usize].is_revealed = true;
-        self.status.num_revealed += 1;
-        if self.blocks[index as usize].is_mine {
-            self.status.game_over = true;
-            return;
-        }
-        if self.blocks[index as usize].adjacent_mines == 0 {
-            // self.reveal_adjacent_blocks(index);
-        }
-        if self.status.num_revealed == self.status.num_safe_blocks {
-            self.status.game_won = true;
-        }
-    }
-
-    pub fn flip_flag(&mut self, index: i32) {
-        if self.blocks[index as usize].is_revealed {
-            return;
-        }
-        if self.blocks[index as usize].is_flagged {
-            self.blocks[index as usize].is_flagged = false;
-            self.status.num_flags -= 1;
-        } else {
-            self.blocks[index as usize].is_flagged = true;
-            self.status.num_flags += 1;
-        }
     }
 
     pub fn print(&self) {
@@ -90,7 +59,7 @@ impl Board {
             for j in 0..self.width {
                 let index = i * self.width + j;
                 if self.blocks[index as usize].is_revealed {
-                    if self.blocks[index as usize].is_mine {
+                    if self.blocks[index as usize].is_mine() {
                         print!("M ");
                     } else {
                         print!("{} ", self.blocks[index as usize].adjacent_mines);
@@ -114,15 +83,15 @@ impl Board {
             operate = Operation::get();
 
             if operate.is_flip {
-                self.flip_flag(operate.index);
+                self.blocks[operate.index as usize].flip_flag();
             } else if operate.is_open {
-                self.reveal_block(operate.index);
+                self.blocks[operate.index as usize].reveal(&mut self.status.num_revealed);
             } else if operate.is_invalid {
                 println!("Invalid operation");
             }
 
             // check game over
-            if self.status.num_revealed == self.status.num_safe_blocks - self.num_mines {
+            if self.status.num_revealed == self.status.num_safe_blocks {
                 self.status.game_won = true;
             }
 
