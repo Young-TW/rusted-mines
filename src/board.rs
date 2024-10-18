@@ -153,7 +153,7 @@ impl Board {
         let mut operate: Operation = Operation::new();
         while !self.status.game_over && !self.status.game_won && !operate.exit_game {
             self.print();
-            operate = Operation::get();
+            operate = Operation::get_cli_input();
 
             if operate.is_flip {
                 self.blocks[operate.index as usize].flip_flag();
