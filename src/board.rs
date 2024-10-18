@@ -97,7 +97,7 @@ impl Board {
 
         // 如果是地雷，遊戲結束
         if self.blocks[index as usize].is_mine {
-            self.status.game_over = true;
+            self.boom();
             return;
         }
 
@@ -147,6 +147,15 @@ impl Board {
             }
             println!();
         }
+    }
+
+    fn boom(&mut self) {
+        for i in 0..self.num_blocks {
+            self.blocks[i as usize].reveal(&mut self.status.num_revealed);
+        }
+
+        self.print();
+        self.status.game_over = true;
     }
 
     pub fn play(&mut self) {
